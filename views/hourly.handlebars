@@ -1,14 +1,85 @@
-<h1>Sähkön tuntihinnat seuraavalle 24 tunnille</h1>
+{{!-- Load a script to create Chart.js charts --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+{{!-- Load script to create Google Chart --}}
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+<h1 style="color: white;">Sähkön tuntihinnat seuraavalle 24 tunnille</h1>
 
 <table>
     <tr>
         <th>Tunti</th>
         <th>Hinta (snt/kWh)</th>
     </tr>
+    <!-- Loop every item in tabledata list, tableData is the key for the list-->
     {{#each tableData}}
+
+    <!-- Create a row and put values into columns according to keys hour and price-->
     <tr>
         <td>{{hour}}</td>
         <td>{{price}}</td>
     </tr>
+    {{!-- Loop must end with {{/each tag}}, btw this is a handlebars comment --}}
     {{/each}}
 </table>
+
+{{!-- Create a named element as a placeholder for the chart --}}
+<canvas id="hourlyChartChartJS" style="width:100%;max-width:400px"></canvas>
+
+<script>
+const xValues = ["13", "14", "15", "16", "17"];
+const yValues = [10, 8, 10, 14, 15];
+const barColors = ["blue", "green","blue","red","red"];
+
+new Chart("hourlyChartChartJS", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+ options: {
+    legend: {display: false},
+    title: {
+      display: false,
+      text: "Sähkön tuntihinnat"}
+    }
+});
+</script>
+
+<div id="hourlyChartGoogleChart"></div>
+
+<script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Element", "Density", { role: "style" } ],
+        ["Copper", 8.94, "#b87333"],
+        ["Silver", 10.49, "silver"],
+        ["Gold", 19.30, "gold"],
+        ["Platinum", 21.45, "color: #e5e4e2"]
+      ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+      var options = {
+        title: "Density of Precious Metals, in g/cm^3",
+        width: 600,
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("hourlyChartGoogleChart"));
+      chart.draw(view, options);
+  }
+  </script>
