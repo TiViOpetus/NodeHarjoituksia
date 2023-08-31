@@ -5,8 +5,10 @@
         <th>Tunti</th>
         <th>Hinta (snt/kWh)</th>
     </tr>
+    {{#each tableData}}
     <tr>
         <td>{{hour}}</td>
         <td>{{price}}</td>
     </tr>
+    {{/each}}
 </table>
