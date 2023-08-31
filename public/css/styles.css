@@ -1,0 +1,17 @@
+body {
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+h1 {font-size: 48px;}
+
+.expensive {
+    color: crimson;
+}
+
+.cheap {
+    color: darkgreen;
+}
+
+.average {
+    color: cornflowerblue;
+}

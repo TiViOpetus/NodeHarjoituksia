@@ -8,6 +8,8 @@
 const express = require('express');
 // Use Express Handlebars as template engine
 const {engine} = require('express-handlebars');
+const req = require('express/lib/request');
+const res = require('express/lib/response');
 
 // EXPRESS APPLICATION SETTINGS
 // ----------------------------
@@ -16,7 +18,7 @@ const {engine} = require('express-handlebars');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Set folder paths: public is for assets and views for pages
+// Set folder paths: public is for assets and views is for pages
 app.use(express.static('public'));
 app.set('views', './views');
 
@@ -27,8 +29,32 @@ app.set('view engine', 'handlebars');
 // URL ROUTES
 // ----------
 
+// TODO: Add date and time as dynamic data for the homepage, is it sensible to use server for creating  time values?
+
+// Route to home page
 app.get('/', (req, res) => {
-    res.render('index')
+
+    let homePageData = {
+        'price': 31.25,
+        'wind': 2,
+        'temperature': 18
+    };
+
+    res.render('index', homePageData)
+
+});
+
+app.get('/hourly',(req, res) => {
+
+    let hourlyPageData = { 'tabledata': [
+        {'hour': 13,
+        'price': 31.44},
+        {},
+        {},
+    ]
+    };
+
+    res.render('hourly', hourlyPageData)
 
 });
 
