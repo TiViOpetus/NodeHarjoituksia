@@ -24,62 +24,75 @@
     {{/each}}
 </table>
 
-{{!-- Create a named element as a placeholder for the chart --}}
+<div>
+    <br>
+    <br>
+</div>
+
+{{!-- Create a named element as a placeholder for the chart.js chart --}}
 <canvas id="hourlyChartChartJS" style="width:100%;max-width:400px"></canvas>
 
 <script>
-const xValues = ["13", "14", "15", "16", "17"];
-const yValues = [10, 8, 10, 14, 15];
-const barColors = ["blue", "green","blue","red","red"];
+    const xValues = ["13", "14", "15", "16", "17"];
+    const yValues = [10, 8, 10, 14, 15];
+    const barColors = ["blue", "green", "blue", "red", "red"];
 
-new Chart("hourlyChartChartJS", {
-  type: "bar",
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yValues
-    }]
-  },
- options: {
-    legend: {display: false},
-    title: {
-      display: false,
-      text: "Sähkön tuntihinnat"}
-    }
-});
+    new Chart("hourlyChartChartJS", {
+        type: "bar",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: false,
+                text: "Sähkön tuntihinnat"
+            }
+        }
+    });
 </script>
+<div>
+    <br>
+    <br>
+</div>
 
+{{!-- Create a named element as a placeholder for the Google chart --}}
 <div id="hourlyChartGoogleChart"></div>
 
 <script type="text/javascript">
-    google.charts.load("current", {packages:['corechart']});
+    google.charts.load("current", { packages: ['corechart'] });
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-        ["Element", "Density", { role: "style" } ],
-        ["Copper", 8.94, "#b87333"],
-        ["Silver", 10.49, "silver"],
-        ["Gold", 19.30, "gold"],
-        ["Platinum", 21.45, "color: #e5e4e2"]
-      ]);
+        var data = google.visualization.arrayToDataTable([
+            ["Tunti", "Hinta snt/kwh", { role: "style" }],
+            ["13", 10, "blue"],
+            ["14", 8, "green"],
+            ["15", 10, "blue"],
+            ["16", 14, "red"],
+            ["16", 15, "red"]
+        ]);
 
-      var view = new google.visualization.DataView(data);
-      view.setColumns([0, 1,
-                       { calc: "stringify",
-                         sourceColumn: 1,
-                         type: "string",
-                         role: "annotation" },
-                       2]);
+        var view = new google.visualization.DataView(data);
 
-      var options = {
-        title: "Density of Precious Metals, in g/cm^3",
-        width: 600,
-        height: 400,
-        bar: {groupWidth: "95%"},
-        legend: { position: "none" },
-      };
-      var chart = new google.visualization.ColumnChart(document.getElementById("hourlyChartGoogleChart"));
-      chart.draw(view, options);
-  }
-  </script>
+        var options = {
+            title: "Seuraavien 24 h tuntihinnat",
+            width: 600,
+            height: 400,
+            bar: { groupWidth: "95%" },
+            legend: { position: "none" },
+            vAxes: {
+                // Adds titles to each axis.
+                0: { title: 'hinta snt/kWh' }
+
+            }
+        };
+
+
+        var chart = new google.visualization.ColumnChart(document.getElementById("hourlyChartGoogleChart"));
+        chart.draw(view, options);
+    }
+</script>
