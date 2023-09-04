@@ -8,15 +8,13 @@
 const express = require('express');
 // Use Express Handlebars as template engine
 const {engine} = require('express-handlebars');
-const req = require('express/lib/request');
-const res = require('express/lib/response');
 
 // EXPRESS APPLICATION SETTINGS
 // ----------------------------
 
 // Create the server
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 
 // Set folder paths: public is for assets and views is for pages
 app.use(express.static('public'));
@@ -59,12 +57,40 @@ app.get('/hourly',(req, res) => {
         'price': 30.50},
         {'hour': 16,
         'price': 29.99}
-    ]
-    };
+    ]};
 
     res.render('hourly', hourlyPageData)
 
 });
+
+// Route to hourly chart page
+app.get('/chart',(req, res) => {
+
+    // Data will be presented in a bar chart. Data will be sent as JSON array to get it work on handlebars page
+    let tableHours = [12, 13, 14, 15, 16];
+    let jsonTableHours = JSON.stringify(tableHours)
+    let tablePrices = [10, 8, 10, 12, 15];
+    let jsonTablePrices = JSON.stringify(tablePrices)
+    let chartPageData =  { 'hours': jsonTableHours, 'prices': jsonTablePrices };
+
+    res.render('chart', chartPageData)
+
+});
+
+app.get('/test',(req, res) => {
+
+     // Data will be presented in a bar chart. Data will be sent as JSON array
+     let tableHours = [12, 13, 14, 15, 16];
+     let jsonTableHours = JSON.stringify(tableHours)
+     let tablePrices = [10, 8, 10, 12, 15];
+     let jsonTablePrices = JSON.stringify(tablePrices)
+     let chartPageData =  { 'hours': jsonTableHours, 'prices': jsonTablePrices };
+
+    res.render('testCJSv4', chartPageData)
+
+});
+
+
 
 // START THE LISTENER
 app.listen(PORT);
