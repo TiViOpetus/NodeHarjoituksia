@@ -14,7 +14,7 @@ const {engine} = require('express-handlebars');
 
 // Create the server
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8080;
 
 // Set folder paths: public is for assets and views is for pages
 app.use(express.static('public'));
