@@ -9,6 +9,14 @@ const express = require('express');
 // Use Express Handlebars as template engine
 const {engine} = require('express-handlebars');
 
+/* Get external data with node-fetch for version 2.x
+This version should be installed as follows: npm install node-fetch@2 
+const fetch = require('node-fetch');*/
+
+/* Get external data with node-fetch for version 3.x
+import fetch from 'node-fetch'; */
+
+
 // EXPRESS APPLICATION SETTINGS
 // ----------------------------
 
@@ -88,7 +96,6 @@ app.get('/test',(req, res) => {
     res.render('testCJSv4', chartPageData)
 
 });
-
 
 
 // START THE LISTENER
