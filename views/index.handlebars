@@ -1,3 +1,5 @@
+
+{{!-- Simulated data rendered from app.js routes section --}}
 <p>Tämä on testiaikainen kotisivu, jossa on simuloitua dataa</p>
 <h1>Sähkö on nyt kallista</h1>
 <h1 class="expensive">{{price}} snt/kWh</h1>
@@ -6,12 +8,15 @@
 <h2>
     <br>
     <br>
+
+{{!-- Show the current date and a digital clock --}}
+{{!-- Data will be rendered by client ie. browser:  put no overhead to server--}}
 </h2>
 <h3>Tänään on</h3>
 <h3 id="dayName"></h3>
 <h3 id="dateString"></h3>
-{{!-- Show a digital clock rendered by client ie browser --}}
-{{!-- It is not wise to use a server to do something that a client can do --}}
+
+{{!-- There must be an event to trigger functions or scripts in the browser, run the script when page loads --}}
 <h2 onload=showTime() id="clock" class="digitalClock"></h2>
 <script>
     // ES6 style function to create time string and update it every second
