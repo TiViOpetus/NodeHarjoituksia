@@ -7,7 +7,7 @@
 // Use Express as web engine
 const express = require('express');
 // Use Express Handlebars as template engine
-const {engine} = require('express-handlebars');
+const { engine } = require('express-handlebars');
 
 /* Get external data with node-fetch for version 2.x
 This version should be installed as follows: npm install node-fetch@2 
@@ -52,51 +52,71 @@ app.get('/', (req, res) => {
 });
 
 // Route to hourly data page
-app.get('/hourly',(req, res) => {
+app.get('/hourly', (req, res) => {
 
     // Data will be presented in a table. To loop all rows we need a key for table and for column data
-    let hourlyPageData = { 'tableData': [
-        {'hour': 13,
-        'price': 31.44},
-        {'hour': 14,
-        'price': 32.10},
-        {'hour': 15,
-        'price': 30.50},
-        {'hour': 16,
-        'price': 29.99}
-    ]};
+    let hourlyPageData = {
+        'tableData': [
+            {
+                'hour': 13,
+                'price': 31.44
+            },
+            {
+                'hour': 14,
+                'price': 32.10
+            },
+            {
+                'hour': 15,
+                'price': 30.50
+            },
+            {
+                'hour': 16,
+                'price': 29.99
+            }
+        ]
+    };
 
     res.render('hourly', hourlyPageData)
 
 });
 
 // Route to hourly chart page
-app.get('/chart',(req, res) => {
+app.get('/chart', (req, res) => {
 
     // Data will be presented in a bar chart. Data will be sent as JSON array to get it work on handlebars page
     let tableHours = [12, 13, 14, 15, 16];
     let jsonTableHours = JSON.stringify(tableHours)
     let tablePrices = [10, 8, 10, 12, 15];
     let jsonTablePrices = JSON.stringify(tablePrices)
-    let chartPageData =  { 'hours': jsonTableHours, 'prices': jsonTablePrices };
+    let chartPageData = { 'hours': jsonTableHours, 'prices': jsonTablePrices };
 
     res.render('chart', chartPageData)
 
 });
 
-app.get('/test',(req, res) => {
+app.get('/test', (req, res) => {
 
-     // Data will be presented in a bar chart. Data will be sent as JSON array
-     let tableHours = [12, 13, 14, 15, 16];
-     let jsonTableHours = JSON.stringify(tableHours)
-     let tablePrices = [10, 8, 10, 12, 15];
-     let jsonTablePrices = JSON.stringify(tablePrices)
-     let chartPageData =  { 'hours': jsonTableHours, 'prices': jsonTablePrices };
+    // Data will be presented in a bar chart. Data will be sent as JSON array
+    let tableHours = [12, 13, 14, 15, 16];
+    let jsonTableHours = JSON.stringify(tableHours)
+    let tablePrices = [10, 8, 10, 12, 15];
+    let jsonTablePrices = JSON.stringify(tablePrices)
+    let chartPageData = { 'hours': jsonTableHours, 'prices': jsonTablePrices };
 
     res.render('testCJSv4', chartPageData)
 
 });
 
+app.get('/callback', (req, res) => {
+
+    let priceData = {
+        'retailPrice': 24.05,
+        'taxMultiplier': 1.24
+    }
+
+    res.render('callbackesim', priceData);
+
+});
 
 // START THE LISTENER
 app.listen(PORT);
