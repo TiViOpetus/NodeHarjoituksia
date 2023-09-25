@@ -33,7 +33,7 @@ cron.schedule('*/5 15 * * *', () => {
     let timestamp = new Date(); // Get the current timestamp
     let dateStr = timestamp.toLocaleDateString(); // Take datepart of the timestamp
 
-    // If the date of last sucessfull fetch is not the current day, get data
+    // If the date of last sucessfull fetch is not the current day, fetch data
     if (lastFethcedDate != dateStr) {
       getPrices.fetchLatestPriceData().then((json) => {
         //loop trough prices data and pick starDate and price elements
