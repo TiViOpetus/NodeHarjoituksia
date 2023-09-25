@@ -12,6 +12,7 @@ async function fetchLatestPriceData() {
     return json;
 }
 
+// Export fetch function to be imported in other programs
 module.exports = {
     fetchLatestPriceData
 }
