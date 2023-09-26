@@ -2,7 +2,7 @@
 // ====================================================
 
 // LIBRARIES AND MODULES
-const Pool = require('pg').Pool
+import { Pool } from 'pg' // ATTENTION This is ES Module
 
 // Create a pool object with connection details, by default 10 concurrent users
 const pool = new Pool({
@@ -27,8 +27,6 @@ let values = ['2023-09-25T12:30:00Z', 0.03];
 const res = await pool.query(sqlClause, values);
 console.log('tallennettiin seuraavat tiedot', res.rows[0]);
 
-module.exports= {
-    pool
-}
+
 
 

@@ -48,7 +48,7 @@ cron.schedule('30 15 * * *', () => {
 // Fetch data and try again in 5 minute intervals if an attempt fails
 
 // Use a date variable to keep track of successfull data retrievals
-let lastFethcedDate = '1.1.2023' // Initial value, in production use settings file
+let lastFetchedDate = '1.1.2023' // Initial value, in production use settings file
 
 // Try to run an operation in 5 minute intervals from 3 to 4 PM
 cron.schedule('*/5 15 * * *', () => {
@@ -57,9 +57,9 @@ cron.schedule('*/5 15 * * *', () => {
         let dateStr = timestamp.toLocaleDateString() // Take datepart of the timestamp
 
         // If the date of last sucessfull fetch is not the current day, get data
-        if (lastFethcedDate != dateStr) {
+        if (lastFetchedDate != dateStr) {
             console.log('This is an attempt to run scheduled fetch operation');
-            lastFethcedDate = dateStr // Set fetch date to current date
+            lastFetchedDate = dateStr // Set fetch date to current date
 
         }
 
