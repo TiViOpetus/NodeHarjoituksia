@@ -44,6 +44,7 @@ cron.schedule('*/5 15 * * *', () => {
           const sqlClause =
             'INSERT INTO public.hourly_price VALUES ($1, $2) RETURNING *';
 
+          // FIXME: Change to common js now in ES syntax  
           // Run the insert command and echo results to the console
           const res = await pool.query(sqlClause, values);
           console.log('The following data has been saved', res.rows[0]);
