@@ -16,7 +16,7 @@ Luodaan näkymä, joka näyttää tiedot edelliseltä vuodelta, mutta kuluvalta 
 
 ## Mikropalvelu datan hakemiseen ja tallentamiseen
 
-![Microservice](https://github.com/TiViOpetus/NodeHarjoituksia/assets/24242044/c9d4a576-f608-4781-b120-612ed54c10ca)
+![Microservice2 drawio](https://github.com/TiViOpetus/NodeHarjoituksia/assets/24242044/c7bbe3d8-f0c4-4e7c-b564-26a422b1ab0d)
 
 Node.js palvelin voi tehdä ajastettuja toimintoja. Selvitä, mitä kirjastoja voisi käyttää tähän tarkoitukseen. Luodaan palvelu, joka lukee päivittäin klo 15.30 hinnat ja tallentaa ne tietokantaan. Jos ei onnistu, yritetään uudelleen tunnin kuluttua. 
 
