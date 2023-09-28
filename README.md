@@ -29,3 +29,15 @@ Selvittäkää, mitä työkaluja / kirjastoja voisi käyttää tiedon hakemiseen
 
 Tehtävä:
 Rakenna palvelu valmiiksi niin, että se pystyy hakemaan päivittäin hintatiedot porssisahko.net-palvelusta ja tallentamaan ne tietokantaan. Esimerkkikoodissa haku- ja tallennustapahtumat kaiutetaan konsoliin. Todellisessa palvelimessa ne halutaan kirjoittaa lokitiedostoon. Lisää koodiin kirjoitus tiedostoon (append) `fs`-kirjaston avulla.
+
+# Pikadokumentaatio
+Seuraavasta taulukosta löytyvät tämän projektin tärkeimmät tiedostot ja hakemistot:
+| Tiedosto tai kansio | Käyttötarkoitus |
+|---|---|
+app.js | web-palvelinohjelmisto sivujen tuottamiseen
+microservice.js | mikropalvelu, joka noutaa hintatiedot ja tallentaa ne PosgtreSQL-tietokantaa
+getNewPrices.js | Moduuli, jossa on rutiini hintatietojen hakemiseen porssisahko.net-palvelusta
+DBObjectScripts | Kansiosta löytyvät tietokantapalvelimen varmuuskopiot ja objektien luontiskriptit
+Data | Kansiosta löytyy oikeaan muotoon muunnettua dataa, joka voidaan tuoda tietokantaan
+Examples | Wikisivuilla käytettyjen esimerkkien javascript-koodit
+Planning | Suunnitteluun liittyvät SQL Power Arcitect -käsitemallit
