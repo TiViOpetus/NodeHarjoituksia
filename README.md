@@ -41,3 +41,18 @@ DBObjectScripts | Kansiosta löytyvät tietokantapalvelimen varmuuskopiot ja obj
 Data | Kansiosta löytyy oikeaan muotoon muunnettua dataa, joka voidaan tuoda tietokantaan
 Examples | Wikisivuilla käytettyjen esimerkkien javascript-koodit
 Planning | Suunnitteluun liittyvät SQL Power Arcitect -käsitemallit
+
+Tietokantaan on luotu joukko näkymiä. Niiden käyttötarkoitukset ilmenevät seuraavasta taulukosta:
+
+Nimi | Käyttötarkoitus
+|---|---|
+current_prices | Sähkön pörssihinnat tästä hetkestä eteenpäin
+running_average | Sähkön hinnan keskiarvo koko aineistosta
+running_average_stdev | Sähkön hinnan keskiarvo ja keskihajonta koko aineistosta
+average_by_year_and_month | Sähkön kuukausittaiset keskihinnat ja hajonta eri vuosilta
+previous_month_average | Edellisen kuukauden sähkön keskihinta ja keskihajonnan mukaiset rajat
+avg_price_by_weekday_num | Keskihinnat viikonpäivittäin viikonpäivänumeroin
+avg_price_by_weekday_name | Keskihinnat viikonpäivittäin viikonpäivän nimin (fi, se, uk, de, tr)
+average_by_year | Vuosittainen keskihinta
+average_year-month_day | Päivän keskihinnat koko aineistosta
+monthly_averages_by_year_fin | Keskihinnat kuukausittain ja vuosittain, kuukausien nimet suomeksi
