@@ -42,6 +42,14 @@ Data | Kansiosta löytyy oikeaan muotoon muunnettua dataa, joka voidaan tuoda ti
 Examples | Wikisivuilla käytettyjen esimerkkien javascript-koodit
 Planning | Suunnitteluun liittyvät SQL Power Arcitect -käsitemallit
 
+Tietokannasta löytyvät seuraavat taulut:
+
+Nimi | Käyttötarkoitus
+|---|---|
+hourly_price | Sähkön päivittäiset hintatiedot: aikaleima tunneittain ja kWh-hinta sentteinä
+month_name_lookup | Taulu eri kielisten kuukauden nimien hakemiseen
+weekday_lookup | Taulu eri kielisten viikonpäivien nimien hakemiseen.
+
 Tietokantaan on luotu joukko näkymiä. Niiden käyttötarkoitukset ilmenevät seuraavasta taulukosta:
 
 Nimi | Käyttötarkoitus
