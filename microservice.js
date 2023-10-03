@@ -80,7 +80,7 @@ cron.schedule('*/5 15 * * *', () => {
       });
       lastFetchedDate = dateStr; // Set fetch date to current date
 
-      // Log when last feched
+      // Log when last fetched
       message = 'Fetched at ' + lastFetchedDate;
       console.log(message)
       logger.add2log(message, logFile)
