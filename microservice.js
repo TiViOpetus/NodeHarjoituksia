@@ -59,7 +59,7 @@ cron.schedule('*/5 15 * * *', () => {
             let resultset = await pool.query(sqlClause, values);
             return resultset;
           }
-          // Call query function and echo results to console
+          // Call query function
           runQuery().then((resultset) => {
 
             // If there is alredy a price for thetimeslot, row is empty ie. undefined
