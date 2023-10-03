@@ -10,6 +10,9 @@ const cron = require('node-cron');
 // Home made library to access price API from porssisahko.net
 const getPrices = require('./getNewPrices');
 
+// Home made library to add messages to a log file
+const logger = require('./logger')
+
 // APP SETTINGS
 // ------------
 
@@ -27,17 +30,19 @@ const pool = new Pool({
 
 // Use a date variable to keep track of successful data retrievals
 let lastFetchedDate = '1.1.2023'; // Initial value, in production use settings file
-
+let message = ''
+const logFile = 'dataOperationsLog'
 // Try to run an operation in 5 minute intervals from 3 to 4 PM
-cron.schedule('*/5 11 * * *', () => {
+cron.schedule('*/5 15 * * *', () => {
   try {
     let timestamp = new Date(); // Get the current timestamp
     let dateStr = timestamp.toLocaleDateString(); // Take date part of the timestamp
 
     // If the date of last successful fetch is not the current day, fetch data
     if (lastFetchedDate != dateStr) {
-      console.log('Started fetching price data ');
-      // TODO: Add this to the log file
+      message = 'Started fetching price data'
+      console.log(message);
+      logger.add2log(message, logFile)
       getPrices.fetchLatestPriceData().then((json) => {
 
         // Loop through prices data and pick startDate and price elements
@@ -52,19 +57,32 @@ cron.schedule('*/5 11 * * *', () => {
             return resultset;
           }
           // Call query function and echo results to console
-          runQuery().then((resultset) => console.log(resultset.rows[0]))
-          // TODO: add this entry to the log file
+          runQuery().then((resultset) => {
+            if (resultset.rows[0] != undefined ) {
+              message = 'Added a row'
+            }
+            else {
+              message = 'Skipped an existing row'
+            }
+            console.log(message);
+            logger.add2log(message, logFile)
+
+          })
+          
         });
       });
       lastFetchedDate = dateStr; // Set fetch date to current date
-      console.log('Fetched at', lastFetchedDate)
-      // TODO: add this entry to the log file
+      message = 'Fetched at ' + lastFetchedDate;
+      console.log(message)
+      logger.add2log(message, logFile)
     } else {
-      console.log('Data has been successfully retrieved earlier today');
-      // TODO: add this entry to the log file
+      message = 'Next scheduled event: Data has been successfully retrieved earlier today'
+      console.log(message);
+      logger.add2log(message, logFile)
     }
   } catch (error) {
-    console.log('An error() occurred, trying again in 5 minutes until 4 PM');
-    // TODO: add this entry and the error message to the log file
+    message = 'An error occurred (' + error.toString() + '), trying again in 5 minutes until 4 PM';
+    console.log(message)
+    logger.add2log(message, logFile)
   }
 });

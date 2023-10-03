@@ -10,16 +10,13 @@ const fs = require('fs');
 
 const add2log = (entry, fileName) => {
     const isoTimeStamp = new Date().toISOString();
-    const logRow = entry + '@' + isoTimeStamp
+    const logRow = entry + '@' + isoTimeStamp + '\n'
     fs.appendFile(fileName, logRow, (err) => {
         if (err) {
             console.log(err);
         }
     })
 };
-
-// Testing add2log function
-add2log( 'This is an informational message', 'dataOperations.log')
 
 // EXPORT
 // ------
