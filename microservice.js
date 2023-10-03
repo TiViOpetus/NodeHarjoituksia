@@ -37,6 +37,7 @@ cron.schedule('*/5 11 * * *', () => {
     // If the date of last successful fetch is not the current day, fetch data
     if (lastFetchedDate != dateStr) {
       console.log('Started fetching price data ');
+      // TODO: Add this to the log file
       getPrices.fetchLatestPriceData().then((json) => {
 
         // Loop through prices data and pick startDate and price elements
@@ -52,14 +53,18 @@ cron.schedule('*/5 11 * * *', () => {
           }
           // Call query function and echo results to console
           runQuery().then((resultset) => console.log(resultset.rows[0]))
+          // TODO: add this entry to the log file
         });
       });
       lastFetchedDate = dateStr; // Set fetch date to current date
       console.log('Fetched at', lastFetchedDate)
+      // TODO: add this entry to the log file
     } else {
       console.log('Data has been successfully retrieved earlier today');
+      // TODO: add this entry to the log file
     }
   } catch (error) {
-    console.log('An error occurred, trying again in 5 minutes until 4 PM');
+    console.log('An error() occurred, trying again in 5 minutes until 4 PM');
+    // TODO: add this entry and the error message to the log file
   }
 });
