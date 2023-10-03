@@ -20,6 +20,8 @@ Luodaan näkymä, joka näyttää tiedot edelliseltä vuodelta, mutta kuluvalta 
 
 Käyttäjät muodostavat yhteyden web-palvelimeen, joka on node-prosesessi. Koska samanaikaisia käyttäjiä voi olla useita, käytetään pääasiassa _asynkronista_ koodia, jotta jonkin käyttäjän käynnistämä pitkäkestoinen operaatio ei hidasta muiden käyttäjien operaatioita. Taustapalveluna toimivaa `microservice.js` node.js ohjelmaa ajetaan erikseen, jolloin se on tietokoneessa oma prosessinsa. Se voidaan tarvittaessa sijoittaa eri tietokoneeseen. Koska käyttäjät eivät suoraan pääse ohjaamaan tätä prosessia, koodi voi olla _synkronista_, jolloin sen kirjoittaminen on yksinkertaista ja koodista tulee myös lyhyempää ja helpommin hallittavaa.
 
+> ☠️ Jos on tarkoitus tehdä koodia, joka suoritetaan tietyssä järjestyksessä, se kannattaa kirjoittaa synkronisia funktioita tai metodeja käyttämällä. Asynkronisten funktioiden suoritusjärjestystä ei voi aina tietää etukäteen. Käytä asynkronisia työkaluja silloin, kun haluat, että ohjelman suoritus jatkuu seuraavaan vaiheeseen ennen kuin funktion suoritus on päättynyt. Nodessa asynkroniset funktiot on tarkoitettu palvelinsovelluksiin, joilla on useita samanaikaisia käyttäjiä. Jos näin ei ole, voit käyttää tavallisia funktioita, eli voit unohtaa callback, promise ja async -rakenteet.
+
 Node.js palvelin voi tehdä ajastettuja toimintoja. Selvitä, mitä kirjastoja voisi käyttää tähän tarkoitukseen. Luodaan palvelu, joka lukee päivittäin klo 15.30 hinnat ja tallentaa ne tietokantaan. Jos ei onnistu, yritetään uudelleen tunnin kuluttua. 
 
 ### Node.js ajastin (scheduler)
