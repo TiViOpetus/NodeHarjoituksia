@@ -34,7 +34,8 @@ const pool = new Pool({
 // Use a date variable to keep track of successful data retrievals
 let lastFetchedDate = '1.1.2023'; // Initial value, in production use settings file
 let message = ''
-const logFile = 'dataOperationsLog'
+const logFile = 'dataOperations.log'
+
 // Try to run an operation in 5 minute intervals from 3 to 4 PM
 cron.schedule('*/5 15 * * *', () => {
   try {
