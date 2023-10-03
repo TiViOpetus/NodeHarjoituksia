@@ -1,3 +1,6 @@
+// A MINIMAL SERVICE TO FETCH PRICE DATA AND SAVE IT INTO POSTGRESQL DATABASE
+// ==========================================================================
+
 // LIBRARIES AND MODULES
 // ---------------------
 
@@ -13,7 +16,7 @@ const getPrices = require('./getNewPrices');
 // Home made library to add messages to a log file
 const logger = require('./logger')
 
-// APP SETTINGS
+// DATABASE SETTINGS
 // ------------
 
 // Create a new pool for Postgres connections
