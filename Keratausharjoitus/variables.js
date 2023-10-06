@@ -107,7 +107,7 @@ class Lecture {
 
     // Olionmuodostin
     constructor(topic,teacher, room, date) {
-        this.topic = topic;
+        this.topic = topic; // this on viittaus tulevaan olioon
         this.teacher = teacher;
         this.room = room;
         this.date = date;
