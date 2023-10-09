@@ -27,7 +27,6 @@ const fullName = 'Jussi Jurkka'; // Määritellään ja annetaan arvo (pakollist
 //fullName = 'Emmi Jurkka'; // Johtaa virheeseen, ei voi antaa uutta arvoa
 // const fullName = 'Joel Rinne' Johtaa virheeseen, ei voi määritellä uudelleen
 
-
 // MUUTTUJIEN NÄKYVYYS
 // -------------------
 planet = 'earth'; // Aina globaali, sijainnista riippumatta
@@ -91,7 +90,7 @@ function callNames(index, set) {
 // Käytetään joukon forEach-metodia, jolle annetaan argumentiksi callback-funtio
 nerds.forEach(callNames); // Nimitellään kaikkia joukon jäseniä vuorotellen
 nerds.clear(); // Tyhjennetään joukko
-console.log(nerds) // Set(0) {}
+console.log(nerds); // Set(0) {}
 
 // Avain-arvo-parit eli sanakirjat luodaan Map-luokasta
 const contactInfo = new Map();
@@ -102,45 +101,70 @@ contactInfo.set('age', 17);
 console.log(contactInfo); //Map(3) { 'givenname' => 'Jonne', 'surname' => 'Janttari', 'age' => 17 }
 
 // Haetaan tietoja avainten perusteella
-console.log(contactInfo.get('givenname'), 'is', contactInfo.get('age'), 'years old')
+console.log(
+  contactInfo.get('givenname'),
+  'is',
+  contactInfo.get('age'),
+  'years old'
+);
 
 // OLIOT
 // -----
 
 // Yksinkertainen olio ilman luokkaa
-const priceEntry = {hour: '10:00:00', price: 1.25}
-console.log('at', priceEntry.hour, 'electricity will cost', priceEntry.price, 'cents')
+const priceEntry = { hour: '10:00:00', price: 1.25 };
+console.log(
+  'at',
+  priceEntry.hour,
+  'electricity will cost',
+  priceEntry.price,
+  'cents'
+);
 
 // Luokka on olion malli
 
 class Lecture {
+  // Olionmuodostin
+  constructor(topic, teacher, room, date) {
+    this.topic = topic; // this on viittaus tulevaan olioon
+    this.teacher = teacher;
+    this.room = room;
+    this.date = date;
+  }
 
-    // Olionmuodostin
-    constructor(topic,teacher, room, date) {
-        this.topic = topic; // this on viittaus tulevaan olioon
-        this.teacher = teacher;
-        this.room = room;
-        this.date = date;
-    }
-
-    // Luokkaan sisältyvä funktio eli metodi
-    motto() {
-        return 'uusin on paras, vai onko sittenkään?'
-    }
+  // Luokkaan sisältyvä funktio eli metodi
+  motto() {
+    return 'uusin on paras, vai onko sittenkään?';
+  }
 }
 
-const jsKertaus = new Lecture('Kertaus','Vainio', 'A253', '10.10.2023')
+const jsKertaus = new Lecture('Kertaus', 'Vainio', 'A253', '10.10.2023');
 
-console.log(jsKertaus.teacher, 'horisee luokassa', jsKertaus.room)
-let message = 'Ja kurssin mottona on "'+ jsKertaus.motto().toUpperCase()+'"'
-console.log(message)
+console.log(jsKertaus.teacher, 'horisee luokassa', jsKertaus.room);
+let message = 'Ja kurssin mottona on "' + jsKertaus.motto().toUpperCase() + '"';
+console.log(message);
 
 // Kaikki muuttujat ovat Javascriptissä olioita, joilla on valmiit metodit perustoimintoihin
-console.log('Muuttuja fullName on tyypiltään', typeof fullName, 'ja sen arvona on', fullName)
+console.log(
+  'Muuttuja fullName on tyypiltään',
+  typeof fullName,
+  'ja sen arvona on',
+  fullName
+);
 let nameParts = fullName.split(' '); // Katkaistaan merkkijono välilyönnin kohdalta
 console.log(nameParts); // [ 'Jussi', 'Jurkka' ]
 
 // Tarvittaessa yksinkertaisen muuttujan voi muös luoda käyttäen alkeisluokkia:
-const numberAsStringObject = new String(123)
-console.log(numberAsStringObject, 'on tietoyypiltään nyt', typeof numberAsStringObject)
-console.log('tekstiobjektimuuttujassa', numberAsStringObject, 'on', numberAsStringObject.length, 'kirjainta')
+const numberAsStringObject = new String(123);
+console.log(
+  numberAsStringObject,
+  'on tietoyypiltään nyt',
+  typeof numberAsStringObject
+);
+console.log(
+  'tekstiobjektimuuttujassa',
+  numberAsStringObject,
+  'on',
+  numberAsStringObject.length,
+  'kirjainta'
+);
