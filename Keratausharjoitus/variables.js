@@ -22,9 +22,12 @@ console.log(lastName); // Kalske
 // let lastName = 'Palo'; // Johtaa virheseen, ei voi määritellä uudelleen
 
 // Nykyaikainen tapa muuttujan (vakion) määrittelyyn: const
+// Tavoitteena estää muuttujien ja erityisesti vakiona määritellyn funktion ylikirjoittaminen
 const fullName = 'Jussi Jurkka'; // Määritellään ja annetaan arvo (pakollista)
 //fullName = 'Emmi Jurkka'; // Johtaa virheeseen, ei voi antaa uutta arvoa
 // const fullName = 'Joel Rinne' Johtaa virheeseen, ei voi määritellä uudelleen
+
+
 // MUUTTUJIEN NÄKYVYYS
 // -------------------
 planet = 'earth'; // Aina globaali, sijainnista riippumatta
