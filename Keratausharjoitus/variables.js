@@ -136,5 +136,11 @@ let message = 'Ja kurssin mottona on "'+ jsKertaus.motto().toUpperCase()+'"'
 console.log(message)
 
 // Kaikki muuttujat ovat Javascriptissä olioita, joilla on valmiit metodit perustoimintoihin
+console.log('Muuttuja fullName on tyypiltään', typeof fullName, 'ja sen arvona on', fullName)
 let nameParts = fullName.split(' '); // Katkaistaan merkkijono välilyönnin kohdalta
 console.log(nameParts); // [ 'Jussi', 'Jurkka' ]
+
+// Tarvittaessa yksinkertaisen muuttujan voi muös luoda käyttäen alkeisluokkia:
+const numberAsStringObject = new String(123)
+console.log(numberAsStringObject, 'on tietoyypiltään nyt', typeof numberAsStringObject)
+console.log('tekstiobjektimuuttujassa', numberAsStringObject, 'on', numberAsStringObject.length, 'kirjainta')
