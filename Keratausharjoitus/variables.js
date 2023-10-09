@@ -45,7 +45,6 @@ console.log('Global constant country is still', country); // Finnland
 console.log("Elon Musk want's to create a colony on", planet); // Mars
 
 // Muuttujan tietotyypin voi selvittää typeof-operaattorilla
-
 console.log('country is a', typeof country); // String
 console.log('age is a', typeof age); // Number
 console.log('chairOfAlliance() is a', typeof chairOfAlliance); // Function, huom ei sulkuja!
@@ -66,9 +65,9 @@ console.log('On mondays', teachers[0], 'will be teaching'); // Ensimmäinen alki
 
 // Vektoriin lisääminen ja poistaminen
 teachers.push('Mari') // Lisätään Mari
-console.log('There is now teachers', teachers.length, 'in the array') // 5
+console.log('There is now', teachers.length, 'teachers in the array') // 5
 console.log('And now we remove last element who was', teachers.pop()) // Mari
-console.log('There is now teachers', teachers.length, 'in the array') // 4
+console.log('There is now', teachers.length, 'teachers in the array') // 4
 
 // Vektorin aakkostaminen
 console.log('Teachers in alphabetical order are:', teachers.sort())
@@ -131,7 +130,6 @@ console.log(
 );
 
 // Luokka on olion malli
-
 class Lecture {
   // Olionmuodostin
   constructor(topic, teacher, room, date) {
@@ -147,8 +145,10 @@ class Lecture {
   }
 }
 
+// Luodaan olio luokasta
 const jsKertaus = new Lecture('Kertaus', 'Vainio', 'A253', '10.10.2023');
 
+// Testataan olion ominaisuuksia ja metodeja
 console.log(jsKertaus.teacher, 'horisee luokassa', jsKertaus.room);
 let message = 'Ja kurssin mottona on "' + jsKertaus.motto().toUpperCase() + '"';
 console.log(message);
