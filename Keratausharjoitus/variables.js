@@ -48,6 +48,13 @@ console.log('country is a', typeof country); // String
 console.log('age is a', typeof age); // Number
 console.log('chairOfAlliance() is a', typeof chairOfAlliance); // Function, huom ei sulkuja!
 
+// Vakiota voi muuttaa toistorakenteen sisällä
+// Muutetaan vakion arvoa 4 kierroksen silmukassa
+for (i = 0; i < 4; i++) {
+  const element = i; // indeksin kulloinenkin arvo
+  console.log('The value of constant named element is now', element);
+}
+
 // RAKENTEELLISET MUUTTUJAT
 // ------------------------
 
@@ -60,7 +67,7 @@ const priceTable = [
   ['milk', 1, 1.13],
   ['electric drill', 100, 124],
 ];
-console.log(priceTable[1][0], 'costs', priceTable[1][2], 'euros incl VAT');
+console.log(priceTable[1][0], 'costs', priceTable[1][2], 'euros incl. VAT');
 
 // Joukko
 // Joukko voidaan luoda vakioksi, koska itse joukkoa ei muuteta, ainoastaan sen alkioita
