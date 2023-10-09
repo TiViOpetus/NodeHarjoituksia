@@ -1,7 +1,7 @@
 // FUNKTIOT JA METODIT
 // ===================
 
-// Perinteinen funktiomäärittely function komennolla
+// Perinteinen funktiomäärittely function-komennolla
 function bmi(weight, height) {
     return weight / (height * height)   
 }
