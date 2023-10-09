@@ -107,10 +107,10 @@ const number2Credit = (number) => {
 
 // Testataan vaihtoehtoja
 let answer = number2Credit('Kiitettävä'); // NaN
-console.log(answer);
+console.log(answer); // Virheellinen arvosana
 answer = number2Credit(10); // >5
-console.log(answer);
+console.log(answer); // Virheellinen arvosana
 answer = number2Credit(0); // <1
-console.log(answer);
+console.log(answer); // Virheellinen arvosana
 answer = number2Credit(5);
-console.log(answer);
+console.log(answer); // Kiitettävä
