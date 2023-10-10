@@ -5,7 +5,7 @@
 // ----------
 const fs = require('fs');
 
-// FUNCTION DEFINITONS
+// FUNCTION DEFINITIONS
 // -------------------
 
 // Function gets message entry and log file name as arguments
