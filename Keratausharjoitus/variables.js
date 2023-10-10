@@ -68,6 +68,26 @@ teachers.push('Mari') // Lisätään Mari
 console.log('There is now', teachers.length, 'teachers in the array') // 5
 console.log('And now we remove last element who was', teachers.pop()) // Mari
 console.log('There is now', teachers.length, 'teachers in the array') // 4
+console.log('Remove the first element who was', teachers.shift()) // Tuomas
+teachers.unshift('Sirkku') // Lisätään Sirkku vektorin ensimmäiseksi alkioksi
+console.log('Lista on nyt:', teachers)
+
+// Jono ja pino
+// ------------
+
+// Jono FiFo (First in, First out)
+const jono = [];
+let palvelusvuorossa = ''
+jono.push('eka'); // Ensimmäinen alkio
+jono.push('toka');
+palvelusvuorossa = jono.shift() // Ensimmäisenä jonoon tullut (eka)
+
+// Pino LiFo (Last in, First out)
+let pino = [];
+let kasittelyssa = ''
+pino.push('eka')
+pino.push('toka')
+kasittelyssa = pino.pop() // Viimeisenä pinoon lisätty (toka)
 
 // Vektorin aakkostaminen
 console.log('Teachers in alphabetical order are:', teachers.sort())
