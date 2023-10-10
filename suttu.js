@@ -66,7 +66,7 @@ console.log('meaningOfLife-muuttuja.toString() on ', typeof meaningOfLife.toStri
 */
 
 // Vektori / lista
-const teachers = ['Tuomas', 'Jussi', 'Mikko', 'Mika'];
+/*const teachers = ['Tuomas', 'Jussi', 'Mikko', 'Mika'];
 console.log('On mondays', teachers[0], 'will be teaching'); // Ensimmäinen alkio -> Tuomas
 
 // Vektoriin lisääminen ja poistaminen
@@ -79,3 +79,60 @@ teachers.unshift('Sirkku') // Lisätään Sirkku vektorin ensimmäiseksi alkioks
 console.log('Lista on nyt:', teachers)
 
 
+console.log('Kohottakaamme kolminkertainen eläköön-huuto isänmaalle:')
+let counter = 0
+while (counter < 3) {
+    console.log('Eläköön!')
+    counter++    
+}
+
+const allowed = 'no'
+do {
+    console.log('Kerta vielä kiellon päälle')
+} while (allowed == 'yes');
+
+
+
+const teachers = ['Tuomas', 'Jussi', 'Mikko', 'Mika']
+
+// Silmukoista voi hypätä kierroksen yli continue-komennolla
+for (i in teachers) {
+  if (teachers[i] == 'Mikko') {continue;} // Hypätään Mikon yli
+  console.log( teachers[i], 'opettaa ohjelmointia');
+  
+}
+
+// If-rakenne
+let beacon = "keltainen";
+
+if (beacon == 'punainen') {
+    console.log(beacon, 'viitta osoittaa väylän vasemman reunan.');
+}
+    else if (beacon == 'vihreä') {
+        console.log(beacon, 'viitta osoittaa väylän oikean reunan.');
+    }
+    else {
+        console.log(beacon, 'viitalla ei osoiteta väylän reunaa')
+    }
+*/
+
+// Switch-Case-rakenne
+
+let colorPattern = 'punainen-musta'
+switch (colorPattern) {
+    case 'musta-keltainen':
+        console.log(colorPattern, 'on pohjoisviitta');
+        break;
+    case 'musta-keltainen-musta':
+        console.log(colorPattern, 'on itäviitta');
+        break;
+    case 'keltainen-musta':
+        console.log(colorPattern, 'on eteläviitta');
+        break;
+    case 'keltainen-musta-keltainen':
+        console.log(colorPattern, 'on länsiviitta');
+        break
+    default:
+        console.log(colorPattern, 'ei ilmoita väylän sijaintia ilmansuuntana')
+            break;
+}
