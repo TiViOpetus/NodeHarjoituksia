@@ -31,7 +31,7 @@ const fullName = 'Jussi Jurkka'; // Määritellään ja annetaan arvo (pakollist
 // -------------------
 planet = 'earth'; // Aina globaali, sijainnista riippumatta
 var continent = 'Europe'; // Aina globaali, sijainnista riippumatta
-const country = 'Finnland'; // Globaali, koska ei ole minkään lohkon sisällä
+const country = 'Finland'; // Globaali, koska ei ole minkään lohkon sisällä
 let alliance = 'EU'; // Globaali, koska ei ole minkään lohkon sisällä
 
 function chairOfAlliance() {
