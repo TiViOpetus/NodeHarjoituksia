@@ -41,8 +41,8 @@ function chairOfAlliance() {
 }
 
 chairOfAlliance(); // Kutsutaan funktiota, jossa country on Spain
-console.log('Global constant country is still', country); // Finnland
-console.log("Elon Musk want's to create a colony on", planet); // Mars
+console.log('Global constant country is still', country); // Finland
+console.log("Elon Musk wants to create a colony on", planet); // Mars
 
 // Muuttujan tietotyypin voi selvittää typeof-operaattorilla
 console.log('country is a', typeof country); // String
