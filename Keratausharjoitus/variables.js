@@ -91,7 +91,7 @@ nerds.delete('Calle'); // Poistetaan Calle
 
 // Luodaan funktio, jolla käsitellään joukon jäsentä
 // Funktio tarvitsee kaksi argumenttia, indeksin ja joukon
-function callNames(index, set) {
+function callNames(index, set) { // set-argumentin voi jättää pois
   console.log('You bloody nerd', index); // Haukutaan yksittäistä alkiota
 }
 
