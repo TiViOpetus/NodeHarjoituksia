@@ -41,6 +41,12 @@ for (i in teachers) {
     
 }
 
+// Silmukoista voi hypätä kierroksen yli continue-komennolla
+for (i in teachers) {
+  if (teachers[i] == 'Mikko') {continue;} // Hypätään Mikon yli
+  console.log( teachers[i], 'opettaa ohjelmointia');
+}
+
 // EHTORAKENTEET
 // -------------
 
