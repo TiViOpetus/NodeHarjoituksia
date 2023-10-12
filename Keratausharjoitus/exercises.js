@@ -100,7 +100,17 @@ class ProgrammerWithMethod {
 const coder4 = new ProgrammerWithMethod('Assi Kalma', 'C#', 'Backend', 'MS SQL')
 console.log('Assin keskiarvo on', coder4.calculateAverage([2,5,4,5]))
 
-/* HARJOITUS 6
+/* Harjoitus 6 luo funktio, joka laskee vektorin alkioiden keskihajonnan perinteisellä tavalla
+*/
+
+/* Harjoitus 7 Muuta edellisen harjoituksen funktio ES6-muotoon
+*/
+
+/* Harjoitus 8 Määrittele luokka, jossa on metodit keskiarvon,
+keskihajonnan ja varianssin, suurimman ja pienimmän arvon laskemiseksi
+argumenttina annetusta vektorista. */
+
+/* HARJOITUS 9
 Tee edellisen tehtävän luokasta CJS kirjasto ja anna se muiden ohjelmien käyttöön export-komennolla
 Luo node.js-ohjelma, jossa luokasta luodaan 5 oliota ja tallennetaan ne vektoriin.
 
