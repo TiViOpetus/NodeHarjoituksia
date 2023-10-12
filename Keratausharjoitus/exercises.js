@@ -101,7 +101,7 @@ const coder4 = new ProgrammerWithMethod('Assi Kalma', 'C#', 'Backend', 'MS SQL')
 console.log('Assin keskiarvo on', coder4.calculateAverage([2,5,4,5]))
 
 /* Harjoitus 6 luo funktio, joka laskee vektorin alkioiden keskihajonnan perinteisellä tavalla
-*/
+ Funktiolle annetaan argumenteiksi vektori ja haluttu desimaalien määrä*/
 
 /* Harjoitus 7 Muuta edellisen harjoituksen funktio ES6-muotoon
 */
