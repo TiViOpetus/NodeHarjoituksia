@@ -1,0 +1,202 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.4
+-- Dumped by pg_dump version 15.4
+
+-- Started on 2023-10-24 14:17:38
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 216 (class 1259 OID 19618)
+-- Name: term_fi; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.term_fi (
+    termi character varying(50) NOT NULL,
+    kuvaus text NOT NULL,
+    hyperlinkki character varying(255),
+    term_us character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.term_fi OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 19639)
+-- Name: englanti-suomi; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public."englanti-suomi" AS
+ SELECT term_fi.term_us AS englanti,
+    term_fi.termi AS suomi,
+    term_fi.kuvaus
+   FROM public.term_fi
+  ORDER BY term_fi.term_us;
+
+
+ALTER TABLE public."englanti-suomi" OWNER TO postgres;
+
+--
+-- TOC entry 214 (class 1259 OID 19604)
+-- Name: terminology; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.terminology (
+    term_us character varying(50) NOT NULL,
+    description_us text NOT NULL,
+    link character varying(255)
+);
+
+
+ALTER TABLE public.terminology OWNER TO postgres;
+
+--
+-- TOC entry 3348 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: TABLE terminology; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.terminology IS 'This table contains IT-terms in English and short description of the term.';
+
+
+--
+-- TOC entry 3349 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: COLUMN terminology.description_us; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.terminology.description_us IS 'Meaning of the term';
+
+
+--
+-- TOC entry 218 (class 1259 OID 19647)
+-- Name: suomi-englanti; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public."suomi-englanti" AS
+ SELECT term_fi.termi AS suomi,
+    term_fi.term_us AS englanti,
+    terminology.description_us AS kuvaus
+   FROM (public.term_fi
+     JOIN public.terminology ON (((term_fi.term_us)::text = (terminology.term_us)::text)))
+  ORDER BY term_fi.termi;
+
+
+ALTER TABLE public."suomi-englanti" OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 19611)
+-- Name: term_se; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.term_se (
+    term character varying(50) NOT NULL,
+    beskrivining text NOT NULL,
+    hyperlink character varying(255),
+    term_us character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.term_se OWNER TO postgres;
+
+--
+-- TOC entry 3342 (class 0 OID 19618)
+-- Dependencies: 216
+-- Data for Name: term_fi; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.term_fi VALUES ('hakasulku', '[ ja ]', NULL, 'square bracket') ON CONFLICT DO NOTHING;
+INSERT INTO public.term_fi VALUES ('aaltosulku', '{ ja }', NULL, 'curly bracket') ON CONFLICT DO NOTHING;
+INSERT INTO public.term_fi VALUES ('kaarisulku', '( ja )', NULL, 'bracket') ON CONFLICT DO NOTHING;
+INSERT INTO public.term_fi VALUES ('vektori (tietotekniikka)', 'Rakenteellinen tietotyyppi useiden arvojen tallentamiseen. Yksittäiseen arvoon viitataan indeksillä.', NULL, 'array') ON CONFLICT DO NOTHING;
+INSERT INTO public.term_fi VALUES ('vektori (matematiikka)', 'Suure, jolla on sekä suuruus että suunta. Esim. nopeus on vektori. Käytetään myös tietokonegrafiikassa.', NULL, 'vector') ON CONFLICT DO NOTHING;
+
+
+--
+-- TOC entry 3341 (class 0 OID 19611)
+-- Dependencies: 215
+-- Data for Name: term_se; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3340 (class 0 OID 19604)
+-- Dependencies: 214
+-- Data for Name: terminology; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.terminology VALUES ('array', 'A structural data type for storing multiple values. Single values are referenced by index.', 'https://en.wikipedia.org/wiki/Array_(data_structure)') ON CONFLICT DO NOTHING;
+INSERT INTO public.terminology VALUES ('square bracket', '[ and ]', NULL) ON CONFLICT DO NOTHING;
+INSERT INTO public.terminology VALUES ('curly bracket', '{ and }', NULL) ON CONFLICT DO NOTHING;
+INSERT INTO public.terminology VALUES ('bracket', '( and )', NULL) ON CONFLICT DO NOTHING;
+INSERT INTO public.terminology VALUES ('vector', 'A quantity with magnitude and direction. Used in mathematics and graphical design software.', 'https://en.wikipedia.org/wiki/Vector') ON CONFLICT DO NOTHING;
+
+
+--
+-- TOC entry 3193 (class 2606 OID 19624)
+-- Name: term_fi term_fi_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.term_fi
+    ADD CONSTRAINT term_fi_pk PRIMARY KEY (termi);
+
+
+--
+-- TOC entry 3191 (class 2606 OID 19617)
+-- Name: term_se term_se_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.term_se
+    ADD CONSTRAINT term_se_pk PRIMARY KEY (term);
+
+
+--
+-- TOC entry 3189 (class 2606 OID 19610)
+-- Name: terminology terminology_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.terminology
+    ADD CONSTRAINT terminology_pk PRIMARY KEY (term_us);
+
+
+--
+-- TOC entry 3195 (class 2606 OID 19625)
+-- Name: term_fi terminology_term_fi_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.term_fi
+    ADD CONSTRAINT terminology_term_fi_fk FOREIGN KEY (term_us) REFERENCES public.terminology(term_us);
+
+
+--
+-- TOC entry 3194 (class 2606 OID 19630)
+-- Name: term_se terminology_term_se_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.term_se
+    ADD CONSTRAINT terminology_term_se_fk FOREIGN KEY (term_us) REFERENCES public.terminology(term_us);
+
+
+-- Completed on 2023-10-24 14:17:38
+
+--
+-- PostgreSQL database dump complete
+--
+
