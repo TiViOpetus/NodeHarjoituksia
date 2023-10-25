@@ -68,3 +68,12 @@ avg_price_by_weekday_name | Keskihinnat viikonpäivittäin viikonpäivän nimin 
 average_by_year | Vuosittainen keskihinta
 average_year-month_day | Päivän keskihinnat koko aineistosta
 monthly_averages_by_year_fin | Keskihinnat kuukausittain ja vuosittain, kuukausien nimet suomeksi
+
+# Haarat ja moduulit
+Sivujen sisällön luomiseksi ja renderöimiseksi luodaan omat moduulit. Moduulien nimet ja käyttötarkoitukset ilmenevät seuraavasta taulukosta:
+
+|Tiedosto | Tarkoitus | Tekijä / tekijät |
+|---|---|---|
+getHomePageData.js | Lukee tietokannasta nykyisen sähkön tuntihinnan, tuulen nopeuden ja lämpötilan. Lämpötila ja tuuli lisätään myöhemmin
+hourlyPageData.js | Lukee tietokannasta päivän tuntihinnat
+createGraphics.js | Lukee tietokannasta dataa ja muodostaa kaaviot: päivä, hintakehitys viikko ja kuukausi taaksepäin.
