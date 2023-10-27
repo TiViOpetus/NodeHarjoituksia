@@ -37,6 +37,7 @@ Rakenna palvelu valmiiksi niin, että se pystyy hakemaan päivittäin hintatiedo
 Alkuvaiheessa **handlebars**-sivuille oli upotettu dataa taulukoiden ja kaavioiden piirtämiseksi. 
 
 **Tehtävä 2**
+
 Muuta sivujen data dynaamisksi, siten että `app.js` renderöi sivut käyttäen tietokantaan tallennettuja näkymiä. tee seuraavat sivut:
 1. Kotisivu -> tuntihinta saadaan tietokannasta (tehty)
 2. Tunneittain sivu -> taulukko päivistä, tunneista ja hinnoista saadaan tietokannasta (tehty)
