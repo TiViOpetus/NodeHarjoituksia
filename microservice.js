@@ -37,7 +37,7 @@ let message = ''
 const logFile = 'dataOperations.log'
 
 // Try to run an operation in 5 minute intervals from 3 to 4 PM
-cron.schedule('*/5 15 * * *', () => {
+cron.schedule('*/5 11 * * *', () => {
   try {
     let timestamp = new Date(); // Get the current timestamp
     let dateStr = timestamp.toLocaleDateString(); // Take date part of the timestamp

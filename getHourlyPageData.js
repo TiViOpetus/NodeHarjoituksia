@@ -1,4 +1,4 @@
-// A MODULE TO RETRIEVE HOME PAGE DATA FROM POSTGRESQL SERVER
+// A MODULE TO RETRIEVE HOURLY PAGE DATA FROM POSTGRESQL SERVER
 // ==========================================================
 
 // LIBRARIES AND MODULES
@@ -20,9 +20,9 @@ const pool = new Pool({
   });
 
   // Function for running SQL operations asyncronously
-  const getCurrentPrice = async () => {
-    let resultset = await pool.query('SELECT price FROM public.current_prices');
+  const getCurrentPriceTable = async () => {
+    let resultset = await pool.query('SELECT * FROM public.hourly_page');
     return resultset;
   }
   
-module.exports = {getCurrentPrice}    
+module.exports = {getCurrentPriceTable}
