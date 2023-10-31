@@ -49,7 +49,7 @@ Sovelluksen rakentaminen jatkuu puuttuvien tietojen haku- ja tallennussovellukse
 2. Yhdistä aiemmin luodut kyselyfunktiot yhteen tiedostoon. Sen pitää myös lukea tietokantayhteyden asetukset em. asetustiedostosta.
 3. Selvitä, miten Ilmatieteen laitoksen (FMI) avoimesta datasta saa nykyisen lämpötilan ja tuulen nopeuden. Tee niiden hakuun oma sovellus käyttämällä mallina `microservice.js`-moduulia.
 4. Rakenna tietokantaan tarvittavat taulut ja näkymät säätietojen tallentamiseen ja näyttämiseen.
-5. Luo sopivat funktiot säätietojen hakemiseen tietokannasta. Ne yhdistetään myöhemmin samaan moduuliin aiemmin lutujen hakufunktioiden kanssa.
+5. Luo sopivat funktiot säätietojen hakemiseen tietokannasta. Ne yhdistetään myöhemmin samaan moduuliin aiemmin luotujen hakufunktioiden kanssa.
 
 # Pikadokumentaatio
 Seuraavasta taulukosta löytyvät tämän projektin tärkeimmät tiedostot ja hakemistot:
