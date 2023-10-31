@@ -8,8 +8,8 @@ This file is to keep track of module names and naming conventions through the de
 |---|---|---|
 `settings.json` | A file containing db settings and time pattern | MikaV
 `settings.js`| Module containing functions to read and write settings file | MikaV
-`getFMIData.js | A microservice to retrieve weather data from FMI | Jakke
-`create_weather_now.sql | View to show current temperature and wind | Assi
+`getFMIData.js` | A microservice to retrieve weather data from FMI | Jakke
+`create_weather_now.sql` | View to show current temperature and wind | Assi
 
 
 
