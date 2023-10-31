@@ -45,7 +45,7 @@ Muuta sivujen data dynaamisksi, siten että `app.js` renderöi sivut käyttäen 
 
 **Tehtävä 3**
 Sovelluksen rakentaminen jatkuu puuttuvien tietojen haku- ja tallennussovelluksen rakentamisella. Lisäksi kovakoodatut asetukset siirretään erilliseen asetustiedostoon. Sovi ryhmässä kuka rakentaa minkäkin moduulin ja miten ne nimetään.
-1. Lisää `microservice.js`-moduuliin asetusten tallennus tidostoon. Käytä JSON-muotoa. Asetuksissa määritellään seuraavat asiat: kellonaika, josta eteenpäin tietojoja haetaan sekä tietokantapalvelimen asetukset.
+1. Lisää `microservice.js`-moduuliin asetusten tallennus tidostoon. Käytä JSON-muotoa. Asetuksissa määritellään seuraavat asiat: kellonaika, josta eteenpäin tietojoja haetaan sekä tietokantapalvelimen asetukset. JSON-tiedostossa kannattaa käyttää samoja avaimia, kuin yhteysasetuksissa. Kellonaikaa kuvaava merkkijonokuvion avain voisi olla esim. `timePattern`.
 2. Yhdistä aiemmin luodut kyselyfunktiot yhteen tiedostoon. Sen pitää myös lukea tietokantayhteyden asetukset em. asetustiedostosta.
 3. Selvitä, miten Ilmatieteen laitoksen (FMI) avoimesta datasta saa nykyisen lämpötilan ja tuulen nopeuden. Tee niiden hakuun oma sovellus käyttämällä mallina `microservice.js`-moduulia.
 4. Rakenna tietokantaan tarvittavat taulut ja näkymät säätietojen tallentamiseen ja näyttämiseen.
