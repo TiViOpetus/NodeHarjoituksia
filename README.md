@@ -50,7 +50,8 @@ Sovelluksen rakentaminen jatkuu puuttuvien tietojen haku- ja tallennussovellukse
 3. Selvitä, miten Ilmatieteen laitoksen (FMI) avoimesta datasta saa nykyisen lämpötilan ja tuulen nopeuden (Jos osoittautuu liian haastavaksi, katson perjantaina valmiiksi WFS-kyselyn parametrit, joilla saadaan Turun sää). Tee niiden hakuun oma sovellus käyttämällä mallina `microservice.js`-moduulia.
 4. Rakenna tietokantaan tarvittavat taulut ja näkymät säätietojen tallentamiseen ja näyttämiseen.
 5. Luo sopivat funktiot säätietojen hakemiseen tietokannasta. Ne yhdistetään myöhemmin samaan moduuliin aiemmin luotujen hakufunktioiden kanssa.
-
+6. Luo testit, joiden avulla testataan asetusten lukeminen tiedostosta ja niiden kirjoittaminen tiedostoon.
+7. Tee tietokantaan testitaulu, jonka avulla voit luoda testejä kyselyfunktioiden testaamiseen.
 # Pikadokumentaatio
 Seuraavasta taulukosta löytyvät tämän projektin tärkeimmät tiedostot ja hakemistot:
 | Tiedosto tai kansio | Käyttötarkoitus |
