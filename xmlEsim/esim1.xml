@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="smarthome.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+
+<pageData>
+    <entry>
+        <timeStamp>2023-11-03T13:00:00Z</timeStamp>
+        <price>2.07</price>
+        <temperature>-1.2</temperature>
+        <windSpeed>4.8</windSpeed>
+    </entry>
+    <entry>
+        <timeStamp>2023-11-03T14:00:00Z</timeStamp>
+        <price>2.20</price>
+        <temperature>-1.0</temperature>
+        <windSpeed>5.5</windSpeed>
+    </entry>
+    <entry>
+        <timeStamp>2023-11-03T15:00:00Z</timeStamp>
+        <price>1.83</price>
+        <temperature>-0.3</temperature>
+        <windSpeed>7.1</windSpeed>
+    </entry>
+</pageData>

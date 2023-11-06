@@ -1,0 +1,26 @@
+<!-- This is an example schema describing names and datatypes of valid XML file-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Define the root element-->
+    <xs:element name="pageData"></xs:element>
+
+    <!-- Define the structure and datatypes for page data entity: contains several entries (rows)-->
+    <xs:complexType name="pageData">
+        <xs:sequence>
+            <xs:element name="entry"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Define the structure and datatypes for entry (a single row)-->                
+    <xs:element name="entry">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="timeStamp" type="xs:string"></xs:element>
+                <xs:element name="price" type="xs:decimal"></xs:element>
+                <xs:element name="temperature" type="xs:decimal"></xs:element>
+                <xs:element name="windSpeed" type="xs:decimal"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
