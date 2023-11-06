@@ -67,3 +67,5 @@ xml2objectArray(xmlData, template).then(result => {
     console.log(result)
 })
 
+// TODO: Lisää esimerkki prettyPrintin käytöstä
+
