@@ -424,11 +424,9 @@ const xmlData = `
 `
 // Template is a set of conversion instructions 
 const template = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:rangeSet/gml:DataBlock',
-
-
-{
-    data: 'gml:doubleOrNilReasonTupleList'
-}];
+    {
+        data: 'gml:doubleOrNilReasonTupleList'
+    }];
 
 /*(async function () {
     const result = await transform(xmlData, template)
