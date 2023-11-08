@@ -13,6 +13,9 @@ const cron = require('node-cron');
 // Home made library to access price API from porssisahko.net
 const getPrices = require('./getNewPrices');
 
+// TODO: Create a module to fetch FMI observations and forecasts
+// lets name it getFmiData.js
+
 // Home made library to add messages to a log file
 const logger = require('./logger')
 
@@ -102,4 +105,11 @@ cron.schedule('*/5 11 * * *', () => {
     console.log(message)
     logger.add2log(message, logFile)
   }
+
 });
+
+// TODO: Use getFmiData modules function to get obsevations every hour
+// and save them to a database table
+
+// TODO: Use getFmiData modules function to get forecasts every hour
+// and save them to a database table
