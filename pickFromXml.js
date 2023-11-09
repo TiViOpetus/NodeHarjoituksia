@@ -455,4 +455,8 @@ xml2objectArray(xmlData, template).then(result => {
     console.log(result)
 })
 
+// TODO: Add a function to convert FMI observation to json
+
+// TODO: Add a function to convert forecast to json
+
 // TODO: Lisää esimerkki prettyPrintin käytöstä
