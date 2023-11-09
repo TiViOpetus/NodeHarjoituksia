@@ -16,17 +16,25 @@ const getPrices = require('./getNewPrices');
 // Home made library to add messages to a log file
 const logger = require('./logger')
 
-// DATABASE SETTINGS
-// ------------
+// Module to access DB settings
+const AppSettings = require('./handleSettings')
 
-// Create a new pool for Postgres connections
+
+// DATABASE SETTINGS
+// -----------------
+const appSettings = new AppSettings('settings.json')
+const settings = appSettings.readSettings()
+
+console.log(settings.server)
+
+// Create a new pool for Postgres connections using settings file parameters
 const pool = new Pool({
-  user: 'postgres', // In production always create a new user for the app
-  password: 'Q2werty',
-  host: 'localhost', // Or localhost or 127.0.0.1 if in the same computer
-  database: 'smarthome',
-  port: 5432
-});
+    user: settings.user, 
+    password: settings.password,
+    host: settings.server, 
+    database: settings.db,
+    port: settings.port
+  });
 
 // GET, PROCESS AND SAVE DATA
 // --------------------------
@@ -37,7 +45,8 @@ let message = ''
 const logFile = 'dataOperations.log'
 
 // Try to run an operation in 5 minute intervals from 3 to 4 PM
-cron.schedule('*/5 11 * * *', () => {
+// TODO: Add time pattern to settings.json file
+cron.schedule('*/5 14 * * *', () => {
   try {
     let timestamp = new Date(); // Get the current timestamp
     let dateStr = timestamp.toLocaleDateString(); // Take date part of the timestamp
