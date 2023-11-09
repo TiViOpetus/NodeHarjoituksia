@@ -44,6 +44,9 @@ let lastFetchedDate = '1.1.2023'; // Initial value, in production use settings f
 let message = ''
 const logFile = 'dataOperations.log'
 
+// Get electricity prices from porssisahko.net
+// -------------------------------------------
+
 // Try to run an operation in 5 minute intervals from 3 to 4 PM
 // TODO: Add time pattern to settings.json file
 cron.schedule('*/5 14 * * *', () => {
@@ -112,3 +115,10 @@ cron.schedule('*/5 14 * * *', () => {
     logger.add2log(message, logFile)
   }
 });
+
+// Get weather data from FMI
+// -------------------------
+
+// TODO: Get weather observations every hour + 5 min using scheduler
+
+// TODO: Get weather forecasts every hour + 5 min using scheduler
