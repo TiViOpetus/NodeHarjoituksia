@@ -8,6 +8,19 @@
 // Camaro offers functions for transofming and beautifying XML
 const { transform, prettyPrint } = require('camaro');
 
+// CLASS DEFINITIONS
+// -----------------
+
+// We need a class to differentiate weather objects from each other in an array
+class WeatherObject {
+  constructor(temperature, windSpeed, windDirection) {
+    this.temperature = temperature;
+    this.windSpeed = windSpeed;
+    this.windDirection = windDirection;
+  }
+}
+
+
 // Example data stored directly to a variable
 const xmlData = `
 <?xml version="1.0" encoding="UTF-8"?>
@@ -422,21 +435,16 @@ const xmlData = `
 </wfs:FeatureCollection>
 
 `
-// Template is a set of conversion instructions 
+// Template is a set of conversion instructions, this retrieves observation data
 const dataTemplate = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:rangeSet/gml:DataBlock',
-    {
-        data: 'gml:doubleOrNilReasonTupleList'
-    }];
+  {
+    data: 'gml:doubleOrNilReasonTupleList'
+  }];
 
-/*(async function () {
-    const result = await transform(xmlData, template)
-    console.log(result)
-    console.log('Temperature on 3rd entry is', result[2].temperature)
-})()
-*/
 
 // Define an asyncroneous function for creating JS-objects from xml data
 // Uses xml string and template as arguments, returns an array of JS-objects
+
 /**  
 * Async function to convert XML data to array of JS-objects
 * @summary Returns an array of JS-objects from given XML according to a template
@@ -444,29 +452,74 @@ const dataTemplate = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservati
 * @param {[obj]} template instruction how to convert containing structure and tags 
 * @return {[obj]} JS-objects containing element names and values in correct datatype
 */
-
 const xml2objectArray = async (xmlData, template) => {
-    const result = await transform(xmlData, template);
-    return result
+  const result = await transform(xmlData, template);
+  return result
 }
 
-// Call the function, get results and then log them to the console
+// Define an empty array for the data to be sent to the database
+let weatherDataToDb = []
+let weatherData = ''; // An empty string for data
+
+// Call the function, get results and convert to an array of objects
 xml2objectArray(xmlData, dataTemplate).then(result => {
-    console.log(result)
-})
+  weatherData = result; // When promise is fullfilled store data
 
+  // TherResult is a single element of multi row text
+  weatherString = weatherData[0].data;
+
+  // Data must be splitted to rows and column values
+  const cutMark1 = '\n'; // Split string from newline chr
+  const cutMark2 = ' '; // Split string by space between columns
+
+  // Data has been dumped as text containing lots of leading and trailing spaces
+  // therefore it must be trimmed
+  const trimmedWeatherDatarows = []; // An empty array for trimmed data
+  const weatherDataRows = weatherString.split(cutMark1); // Split by new lines
+  weatherDataRows.forEach(element => {
+    trimmedElement = element.trim(); // Remove spaces from start and end of line
+    trimmedWeatherDatarows.push(trimmedElement) // Add element to the array
+  });
+
+  // Let's remove the 1st element because it is empty
+  trimmedWeatherDatarows.shift()
+
+  // Shift operation adds an empty element at the end of array, remove it
+  trimmedWeatherDatarows.pop()
+
+  // Loop the trimmed array element by element
+  trimmedWeatherDatarows.forEach(element => {
+    let valueOfInterest = element.split(cutMark2) // Split by space
+    let windDirection = Number(valueOfInterest[0]); // Convert values to numeric
+    let windSpeed = Number(valueOfInterest[1]);
+    let temperature = Number(valueOfInterest[2]);
+
+    // Create a new object to add values to an array as an object
+    let objToAdd = new WeatherObject(temperature, windSpeed, windDirection);
+    weatherDataToDb.push(objToAdd)
+  })
+
+  // Some preliminary tests to chek that all is going as planned 
+  console.log(weatherDataToDb) // The whole array
+  console.log('4th element has temperature property of', weatherDataToDb[3].temperature) // A single value of object property
+  console.log('22nd element has temperature property of',weatherDataToDb[21].temperature)
+
+});
+
+// A template to get timestamps and positions
 timeTemplate = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:domainSet/gmlcov:SimpleMultiPoint',
-{
+  {
     data: 'gmlcov:positions'
-}];
+  }];
 
+// Get positions and timestamps to the console  
 xml2objectArray(xmlData, timeTemplate).then(result => {
   console.log(result)
 })
 
 
-// TODO: Add a function to convert FMI observation to json
+// 
 
-// TODO: Add a function to convert forecast to json
+// TODO: Add a function to convert forecast to array of objects
 
 // TODO: Lisää esimerkki prettyPrintin käytöstä
