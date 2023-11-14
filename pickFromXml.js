@@ -423,7 +423,7 @@ const xmlData = `
 
 `
 // Template is a set of conversion instructions 
-const template = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:rangeSet/gml:DataBlock',
+const dataTemplate = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:rangeSet/gml:DataBlock',
     {
         data: 'gml:doubleOrNilReasonTupleList'
     }];
@@ -451,9 +451,19 @@ const xml2objectArray = async (xmlData, template) => {
 }
 
 // Call the function, get results and then log them to the console
-xml2objectArray(xmlData, template).then(result => {
+xml2objectArray(xmlData, dataTemplate).then(result => {
     console.log(result)
 })
+
+timeTemplate = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:domainSet/gmlcov:SimpleMultiPoint',
+{
+    data: 'gmlcov:positions'
+}];
+
+xml2objectArray(xmlData, timeTemplate).then(result => {
+  console.log(result)
+})
+
 
 // TODO: Add a function to convert FMI observation to json
 
