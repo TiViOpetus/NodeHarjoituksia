@@ -26,7 +26,7 @@ const xml2objectArray = async (xmlData, template) => {
 
 const rawXMLTemperature = fs.readFileSync('temperature.xml').toString();
 const rawXMLWindSpeed = fs.readFileSync('windSpeed.xml').toString();
-
+const rawXMLWindDirection = fs.readFileSync('windDirection.xml').toString();
 
 // Template is a set of conversion instructions, this retrieves time and temperature
 const temperatureTemplate = ['wfs:FeatureCollection/wfs:member/omso:PointTimeSeriesObservation/om:result/wml2:MeasurementTimeseries/wml2:point/wml2:MeasurementTVP',
@@ -51,5 +51,17 @@ const windSpeedTemplate = ['wfs:FeatureCollection/wfs:member/omso:PointTimeSerie
 // Call the function, get results and convert to an array of objects
 xml2objectArray(rawXMLWindSpeed, windSpeedTemplate).then(result => {
     weatherData = result; // When promise is fullfilled store data
-    console.log(weatherData) // See timestamps and temperatures
+    console.log(weatherData) // See timestamps and wind speeds
+  });
+
+const windDirectionTemplate = ['wfs:FeatureCollection/wfs:member/omso:PointTimeSeriesObservation/om:result/wml2:MeasurementTimeseries/wml2:point/wml2:MeasurementTVP',
+{
+  timeStamp: 'wml2:time',
+  windDirection: 'wml2:value'
+}];
+
+// Call the function, get results and convert to an array of objects
+xml2objectArray(rawXMLWindDirection, windDirectionTemplate).then(result => {
+    weatherData = result; // When promise is fullfilled store data
+    console.log(weatherData) // See timestamps and wind directions
   });
