@@ -465,7 +465,7 @@ let weatherData = ''; // An empty string for data
 xml2objectArray(xmlData, dataTemplate).then(result => {
   weatherData = result; // When promise is fullfilled store data
 
-  // TherResult is a single element of multi row text
+  // The result is a single element of multi row text
   weatherString = weatherData[0].data;
 
   // Data must be splitted to rows and column values
@@ -484,7 +484,7 @@ xml2objectArray(xmlData, dataTemplate).then(result => {
   // Let's remove the 1st element because it is empty
   trimmedWeatherDatarows.shift()
 
-  // Shift operation adds an empty element at the end of array, remove it
+  // There is an empty element at the end of array, remove it also
   trimmedWeatherDatarows.pop()
 
   // Loop the trimmed array element by element
@@ -503,7 +503,7 @@ xml2objectArray(xmlData, dataTemplate).then(result => {
   console.log(weatherDataToDb) // The whole array
   console.log('4th element has temperature property of', weatherDataToDb[3].temperature) // A single value of object property
   console.log('22nd element has temperature property of',weatherDataToDb[21].temperature)
-
+  console.log('32nd element has wind direction property of',weatherDataToDb[31].windDirection)
 });
 
 // A template to get timestamps and positions
@@ -512,11 +512,12 @@ timeTemplate = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:
     data: 'gmlcov:positions'
   }];
 
+/*  
 // Get positions and timestamps to the console  
 xml2objectArray(xmlData, timeTemplate).then(result => {
   console.log(result)
 })
-
+*/
 
 // 
 
