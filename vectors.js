@@ -1,18 +1,50 @@
-let windAngle = 0;
-let uVector = 3;
-let vVector = -4;
-let xyAngleRad = Math.atan2(uVector, vVector); // atan2 returns angle in radians
-let xyAngleDeg = xyAngleRad * 360 /(2 * Math.PI); // convert radians to degrees
-let geographicAngle = 270 - xyAngleDeg; // convert x-y plane directions to geographic directions
-if (geographicAngle < 180) {
-   windAngle = geographicAngle + 180;
-}
-else {
-    windAngle = 360 - geographicAngle
-}
- 
-let windSpeed = Math.sqrt(uVector**2 + vVector**2); // calcultate wind speed accordint to the Pythagoras theorem
+const wind = (uVector, vVector) => {
 
-console.log('Tuulen suunta on', Math.round(windAngle), 'astetta');
-console.log('ja nopeus on', windSpeed, 'm/s')
+    // Reset all values
+    let windAngle = 0; // Wind blows from opposite direction to vector
+    let windSpeed = 0; // Wind speed in vector units (m/s)
+    let geographicAngle = 0; // Angle of vector in a map
+
+    // atan2 returns angle in radians. Arguments are in (y,x) order!
+    let xyAngleRad = Math.atan2(vVector, uVector); 
+    let xyAngleDeg = xyAngleRad * 360 /(2 * Math.PI); // convert radians to degrees
+    
+    // Convert x-y plane directions to geographic directions
+    // There is 90 degrees shift between x-y and map directions
+    if (xyAngleDeg > 90) {
+    geographicAngle = 360 - (xyAngleDeg -90);
+    }
+
+    else {
+        geographicAngle = 90 - xyAngleDeg ;
+    }
+    
+    // Wind blow from opposite direction
+    if (geographicAngle < 180) {
+        windAngle = geographicAngle + 180;
+    }
+
+    else {
+        windAngle = geographicAngle -180
+    }
+
+    // calcultate wind speed according to the Pythagoras theorem
+    windSpeed = Math.sqrt(uVector**2 + vVector**2);
+    
+    // Return all calculated parameters
+    return {
+            xyAngleRad: xyAngleRad,
+            xyAngleDeg: xyAngleDeg,
+            geographicAngle: geographicAngle,
+            windAngle: windAngle,
+            windSpeed: windSpeed
+        };
+    }
+
+// Let's make some preliminary tests
+console.log('u = 3, v = 4', wind(3, 4));
+console.log('u = 3, v = -4', wind(3, -4))
+console.log('u = -3, v = 4', wind(-3, 4))
+console.log('u = -3, v = -4', wind(-3, -4))
+
 
