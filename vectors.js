@@ -47,4 +47,7 @@ console.log('u = 3, v = -4', wind(3, -4))
 console.log('u = -3, v = 4', wind(-3, 4))
 console.log('u = -3, v = -4', wind(-3, -4))
 
-
+// Important to test cases when a component is 0
+console.log('u = 0, v = 4', wind(0, 4))
+console.log('u = 4, v = 0', wind(4, 0))
+console.log('u = 0, v = 0', wind(0, 0))
