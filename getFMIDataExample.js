@@ -37,6 +37,13 @@ const pool = new Pool({
 
 // A class for creating various weather observation objects containing URL and template
 class WeatherObservationTimeValuePair {
+/** 
+* A constructon to create weather observation object.
+* @param {str} place - Name of the place for the weather station.
+* @param {str} parameterCode - Name of the FMI weather parameter eg. t2m.
+* @param {str} parameterName - Meaning of the FMI weather parameter eg. temperature.
+*/
+    
     constructor(place, parameterCode, parameterName) {
         this.place = place;
         this.parameterCode = parameterCode;
@@ -152,6 +159,13 @@ class WeatherObservationTimeValuePair {
 
 // A class for creating various weather forecast objects containing URL and template
 class WeatherForecastTimeValuePair {
+
+    /** 
+    * A constructon to create weather observation object.
+    * @param {str} place - Name of the place for the weather station.
+    * @param {str} parameterCode - Name of the FMI weather parameter eg. t2m.
+    * @param {str} parameterName - Meaning of the FMI weather parameter eg. temperature.
+    */
     constructor(place, parameterCode, parameterName) {
         this.place = place;
         this.parameterCode = parameterCode;
@@ -265,18 +279,30 @@ class WeatherForecastTimeValuePair {
 
 }
 
+
 // A class for calcultaing windspeed from wind vectors V and U
+
 class WindVector {
-    constructor(windV, windU) {
-        this.windV = windV;
+/** 
+* Constructor method.
+* @summary Creates a Wind vector object using wind components u and v
+* @param {float} windU - x-component of wind ie. eastward wind
+* @param {float} windV - y-component of wind ie. southward wind
+*/
+    
+    constructor(windU, windV) {
         this.windU = windU;
+        this.windV = windV;
         this.windSpeed = math.sqrt(math.square(this.windV) + math.square(this.windV))
     }
-
+    /** 
+    * A method to calculate and return wind angles in different formats.
+    * @return {obj} Returns wind vector angles (rad, deg, map, wind angles) and wind speed.
+    */
+    
     windParameters() {
-            // Reset all values
+    // Reset all values
     let windAngle = 0; // Wind blows from opposite direction to vector
-    let windSpeed = 0; // Wind speed in vector units (m/s)
     let geographicAngle = 0; // Angle of vector in a map
 
     // atan2 returns angle in radians. Arguments are in (y,x) order!
@@ -301,22 +327,19 @@ class WindVector {
     else {
         windAngle = geographicAngle -180
     }
-
-    // calcultate wind speed according to the Pythagoras theorem
-    windSpeed = Math.sqrt(uVector**2 + vVector**2);
     
     // Return all calculated parameters
     return {
             xyAngleRad: xyAngleRad,
             xyAngleDeg: xyAngleDeg,
             geographicAngle: geographicAngle,
-            windAngle: windAngle,
-            windSpeed: windSpeed
+            windAngle: math.round(windAngle),
+            windSpeed: math.round(this.windSpeed)
         };
     }
 }
 // Test reading observation data and storig results to database: Turku temperatures
-const observationtimeValuePair = new WeatherObservationTimeValuePair('Turku', 't2m', 'temperature');
+const observationtimeValuePair = new WeatherObservationTimeValuePair('Turku','t2m', 'temperature');
 
 // Show url to fetch from
 console.log(observationtimeValuePair.url);
@@ -339,6 +362,6 @@ console.log(forecastTimeValuePair.xmlTemplate)
 //forecastTimeValuePair.putTimeValuPairsToDb()
 
 let windVector = new WindVector(3, -4)
-windVector.windParameters()
+console.log(windVector.windParameters())
 
 
