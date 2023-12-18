@@ -159,7 +159,7 @@ class WeatherMultiValueData {
         // When all time and place information has been processed start processing weather data
         .then(() => {
           transform(response.data, this.weatheDataTemplate).then((result) => {
-            let trimmedTableArrayValues = []; // An empty array for time and location table
+            let trimmedTableArrayValues = []; // An empty array for the actual weather data
             let rowString = result.toString(); // Convert array to a string for splitting
             let rowArray = rowString.split('\n'); // Split by newline to an array -> row
             rowArray.shift(); // Remove the 1 st row which is empty
