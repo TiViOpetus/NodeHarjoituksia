@@ -20,6 +20,7 @@ const math = require('mathjs');
 const AppSettings = require('./handleSettings');
 const { response } = require('express');
 
+
 // DATABASE SETTINGS
 // -----------------
 const appSettings = new AppSettings('settings.json');
@@ -33,6 +34,7 @@ const pool = new Pool({
   database: settings.db,
   port: settings.port,
 });
+
 
 // CLASS DEFINITIONS
 // -----------------
@@ -104,6 +106,20 @@ class WeatherMultiValueData {
     });
   }
 
+  /** 
+  * Converts FMI "unix" timestamps to ISO-timestamps with time zone
+  * @summary Multiplies FMI timestamp by 1000 and converts results to ISO string
+  * @param {string} fmiTimestamp - Timestamp from FMI data (Unix seconds)
+  * @return {string} ISO formatted timestamp with time zone
+  */
+
+  fmiTime2ISOTimestamp(fmiTimestamp) {
+    let NumericFmiTimestamp = parseInt(fmiTimestamp)
+    let unixTimestamp = 1000 * fmiTimestamp;
+    let isoTimestamp = new Date(unixTimestamp);
+    return isoTimestamp
+  }
+
   /**
    * A method to set the path to a tag where time and location data starts. Used in Camaro transformations
    * @param {string} xmlPath - A XML path to start of time and location data
@@ -130,14 +146,21 @@ class WeatherMultiValueData {
     this.weatheDataTag = dataTag;
     this.weatheDataTemplate = [this.weatherDataXmlPath, this.weatheDataTag];
   }
-
+/** 
+* Shows FMI multi valued data as table like array
+* @summary Shows FMI data as an array on the console
+*/
+  
   getDataAsArray() {
     // Make Axios request and wait for promise to fullfill
     axios.request(this.axiosConfig).then((response) => {
-      // Create an empty array for results. The array will consist 2 table like elements
+      // Create an empty array for results. This 3D array will consist 2 table like elements
       // First containing latitude, longitude, empty column and time value in UNIX seconds
       // Second contains weather observation or forecast values in same order as time values
       let resultArray = [];
+
+      // Create an empty 2D array for final results in for inserting into a weather table
+      let finalTable = []
 
       // Make Camaro transformation and wait for promise to get time and place information
       transform(response.data, this.timeAndPlaceTemplate)
@@ -159,7 +182,220 @@ class WeatherMultiValueData {
         // When all time and place information has been processed start processing weather data
         .then(() => {
           transform(response.data, this.weatheDataTemplate).then((result) => {
-            let trimmedTableArrayValues = []; // An empty array for the actual weather data
+            let trimmedTableArrayValues = []; // An empty array for time and location table
+            let rowString = result.toString(); // Convert array to a string for splitting
+            let rowArray = rowString.split('\n'); // Split by newline to an array -> row
+            rowArray.shift(); // Remove the 1 st row which is empty
+            rowArray.pop(); // Remove the last row which is also empty
+            rowArray.forEach((element) => {
+              let trimmedRow = element.trim();
+              let columnArray = trimmedRow.split(' ');
+              trimmedTableArrayValues.push(columnArray);
+            });
+            
+            resultArray.push(trimmedTableArrayValues);
+
+            if (resultArray[0].length == resultArray[1].length) {
+              
+              // Loop rows from time and value data from 3D array
+              for (let rowIndex = 0; rowIndex < resultArray[0].length; rowIndex++) {
+                const timeRow = resultArray[0][rowIndex]; // Lat, lon and time
+                const dataRow = resultArray[1][rowIndex]; // Observations or forecasts
+                let finalRow = []; // An empty array to store a row for the final table
+                
+                // Loop lat, lon and time columns
+                for (let columnIndex = 0; columnIndex < timeRow.length; columnIndex++) {
+                  const timeColumn = timeRow[columnIndex];
+                  finalRow.push(timeColumn); 
+                };
+                
+                // Loop weather columns
+                for (let columnIndex = 0; columnIndex < dataRow.length; columnIndex++) {
+                  const dataColumn = dataRow[columnIndex];
+                  finalRow.push(dataColumn); 
+                };
+
+                finalTable.push(finalRow); // Put the row into final table like array
+              }
+              console.log(finalTable);
+                          
+            } else {
+              consologe.log('Inconsistent data')
+            }
+  
+          });
+         
+        });
+    });
+  
+  }
+}
+/**
+ * Reads a multi value weather odbservation data from FMI's WFS server and
+ * Stores data to an existing table on a PostgreSQL Database.
+ * Inherits WeatherMultiValueData class properties and methods
+ * @extends WeatherMultiValueData
+ */
+
+class BasicWeatherObservationTable extends WeatherMultiValueData {
+  /**
+   * Constructor for the class
+   * @param {string} baseUrl - FMI's WFS url without place or parameter list.
+   * @param {string} place - A Short name of the weather station.
+   * @param {[string]} parameters - List of parameters, defaults to temperature and windspeed.
+   * @param {string} tableName - Name of the observation table, defaults to observation.
+   */
+  constructor(baseUrl, place, parameters = ['temperature', 'windspeedms'], tableName = 'observation') {
+    super(baseUrl, place, parameters);
+    this.tableName = tableName;
+  }
+
+  /** 
+  * Writes raw FMI data to an existing table in which all coluns must be type of char or varchar.
+  * @summary Save FMI data to a table without type conversions
+  *
+  */
+  
+  writeRawDataToTable() {
+      // Make Axios request and wait for promise to fullfill
+      axios.request(this.axiosConfig).then((response) => {
+        // Create an empty array for results. This 3D array will consist 2 table like elements
+        // First containing latitude, longitude, empty column and time value in UNIX seconds
+        // Second contains weather observation or forecast values in same order as time values
+        let resultArray = [];
+  
+        // Create an empty 2D array for final results in for inserting into a weather table
+        let finalTable = []
+  
+        // Make Camaro transformation and wait for promise to get time and place information
+        transform(response.data, this.timeAndPlaceTemplate)
+          .then((result) => {
+            let trimmedTableArrayTime = []; // An empty array for time and location table
+            let rowString = result.toString(); // Convert array to a string for splitting
+            let rowArray = rowString.split('\n'); // Split by newline to an array -> row
+            rowArray.shift(); // Remove the 1 st row which is empty
+            rowArray.pop(); // Remove the last row which is also empty
+            rowArray.forEach((element) => {
+              let trimmedRow = element.trim();
+              let columnArray = trimmedRow.split(' ');
+              trimmedTableArrayTime.push(columnArray);
+            });
+            // console.log('Time table data is', trimmedTableArrayTime);
+            resultArray.push(trimmedTableArrayTime);
+          })
+  
+          // When all time and place information has been processed start processing weather data
+          .then(() => {
+            transform(response.data, this.weatheDataTemplate).then((result) => {
+              let trimmedTableArrayValues = []; // An empty array for time and location table
+              let rowString = result.toString(); // Convert array to a string for splitting
+              let rowArray = rowString.split('\n'); // Split by newline to an array -> row
+              rowArray.shift(); // Remove the 1 st row which is empty
+              rowArray.pop(); // Remove the last row which is also empty
+              rowArray.forEach((element) => {
+                let trimmedRow = element.trim();
+                let columnArray = trimmedRow.split(' ');
+                trimmedTableArrayValues.push(columnArray);
+              });
+              // console.log('Value table data is', trimmedTableArrayValues);
+              resultArray.push(trimmedTableArrayValues);
+  
+              if (resultArray[0].length == resultArray[1].length) {
+                
+                const sqlOperation = 'INSERT INTO '
+                const tablePath = 'public.' + this.tableName
+                const totalColums = resultArray[0][0].length + resultArray[1][0].length
+                const valuePlaceHolderArray = []
+
+                for (let placeindex = 1; placeindex <= totalColums; placeindex++) {
+                  const placeHolder = '$'+placeindex;
+                  valuePlaceHolderArray.push(placeHolder)  
+                }
+
+                const valuePlaceholderString = ' VALUES (' + valuePlaceHolderArray.toString() + ') '
+                const conflictString = 'ON CONFLICT DO NOTHING'
+                const sqlClause = sqlOperation + tablePath + valuePlaceholderString + conflictString
+
+                // Loop rows from time and value data from 3D array
+                for (let rowIndex = 0; rowIndex < resultArray[0].length; rowIndex++) {
+                  const timeRow = resultArray[0][rowIndex]; // Lat, lon and time
+                  const dataRow = resultArray[1][rowIndex]; // Observations or forecasts
+                  let finalRow = []; // An empty array to store a row for the final table
+                  
+                  // Loop lat, lon, place and time columns
+                  for (let columnIndex = 0; columnIndex < timeRow.length; columnIndex++) {
+                    let timeColumn = timeRow[columnIndex];
+
+                    // If a column is empty put place in it (3rd column is empty)
+                    if (timeColumn == '') {
+                      timeColumn = this.place
+                    }
+                    finalRow.push(timeColumn); 
+                  };
+                  
+                  // Loop weather columns
+                  for (let columnIndex = 0; columnIndex < dataRow.length; columnIndex++) {
+                    const dataColumn = dataRow[columnIndex];
+                    finalRow.push(dataColumn); 
+                  };
+  
+                  const insertToTable = async () => {
+                    await pool.query(sqlClause, finalRow);
+                  };
+
+                  insertToTable();
+
+                }
+                
+              } else {
+                consologe.log('Inconsistent data')
+              }
+    
+              
+            });
+           
+          });
+      });
+    
+    
+  }
+/** 
+* Writes FMI data to an existing table and convert data to correct datatypes.
+* @summary Save data into a table and change datatypes to correct ones
+*/
+  
+  writeTypedDataToTable() {
+    // Make Axios request and wait for promise to fullfill
+    axios.request(this.axiosConfig).then((response) => {
+      // Create an empty array for results. This 3D array will consist 2 table like elements
+      // First containing latitude, longitude, empty column and time value in UNIX seconds
+      // Second contains weather observation or forecast values in same order as time values
+      let resultArray = [];
+
+      // Create an empty 2D array for final results in for inserting into a weather table
+      let finalTable = []
+
+      // Make Camaro transformation and wait for promise to get time and place information
+      transform(response.data, this.timeAndPlaceTemplate)
+        .then((result) => {
+          let trimmedTableArrayTime = []; // An empty array for time and location table
+          let rowString = result.toString(); // Convert array to a string for splitting
+          let rowArray = rowString.split('\n'); // Split by newline to an array -> row
+          rowArray.shift(); // Remove the 1 st row which is empty
+          rowArray.pop(); // Remove the last row which is also empty
+          rowArray.forEach((element) => {
+            let trimmedRow = element.trim();
+            let columnArray = trimmedRow.split(' ');
+            trimmedTableArrayTime.push(columnArray);
+          });
+          // console.log('Time table data is', trimmedTableArrayTime);
+          resultArray.push(trimmedTableArrayTime);
+        })
+
+        // When all time and place information has been processed start processing weather data
+        .then(() => {
+          transform(response.data, this.weatheDataTemplate).then((result) => {
+            let trimmedTableArrayValues = []; // An empty array for time and location table
             let rowString = result.toString(); // Convert array to a string for splitting
             let rowArray = rowString.split('\n'); // Split by newline to an array -> row
             rowArray.shift(); // Remove the 1 st row which is empty
@@ -171,76 +407,111 @@ class WeatherMultiValueData {
             });
             // console.log('Value table data is', trimmedTableArrayValues);
             resultArray.push(trimmedTableArrayValues);
-            console.log('Place and time data:', resultArray[0]); // 1st table: time and place
-            console.log('Value data:', resultArray[1]); // 2nd table: weather values
-            console.log('Place and time data contains', resultArray[0].length, 'rows'); // Row count for 1st
-            console.log('Value data contains', resultArray[1].length, 'rows'); // Row count for 2nd table
-            console.log('Time value on 1st row is', resultArray[0][0][3]);
-            let exampleRow1 = resultArray[0][0];
-            let exampleRow2 = resultArray[1][0];
-            console.log('1st table has', exampleRow1.length, 'columns');
-            console.log('2nd table has', exampleRow2.length, 'columns');
-            return resultArray;
-e
-            // TODO: Make a loop which combines resultArray[0] and [1] into a single 2D table
-            // Routine must check that there is same amount of rows in both tables before merging data
+
+            if (resultArray[0].length == resultArray[1].length) {
+              
+              const sqlOperation = 'INSERT INTO '
+              const tablePath = 'public.' + this.tableName
+              const totalColums = resultArray[0][0].length + resultArray[1][0].length
+              const valuePlaceHolderArray = []
+
+              for (let placeindex = 1; placeindex <= totalColums; placeindex++) {
+                const placeHolder = '$'+placeindex;
+                valuePlaceHolderArray.push(placeHolder)  
+              }
+
+              const valuePlaceholderString = ' VALUES (' + valuePlaceHolderArray.toString() + ') '
+              const conflictString = 'ON CONFLICT DO NOTHING'
+              const sqlClause = sqlOperation + tablePath + valuePlaceholderString + conflictString
+
+              // Loop rows from time and value data from 3D array
+              for (let rowIndex = 0; rowIndex < resultArray[0].length; rowIndex++) {
+                const timeRow = resultArray[0][rowIndex]; // Lat, lon and time
+                const dataRow = resultArray[1][rowIndex]; // Observations or forecasts
+                let finalRow = []; // An empty array to store a row for the final table
+                
+                // Loop lat, lon, place and time columns
+                for (let columnIndex = 0; columnIndex < timeRow.length; columnIndex++) {
+                  let timeColumn = timeRow[columnIndex];
+
+                  // If a column is empty put the place in it (3rd column is empty)
+                  if (timeColumn == '') {
+                    timeColumn = this.place
+                  }
+                  if (columnIndex == 3) {
+                    let realTimestamp = this.fmiTime2ISOTimestamp(timeColumn)
+                    timeColumn = realTimestamp
+                    
+                  }
+                  finalRow.push(timeColumn); 
+                };
+                
+                // Loop weather columns
+                for (let columnIndex = 0; columnIndex < dataRow.length; columnIndex++) {
+                  const dataColumn = dataRow[columnIndex];
+                  finalRow.push(dataColumn); 
+                };
+
+                console.log(finalRow)
+                /*
+                const insertToTable = async () => {
+                  await pool.query(sqlClause, finalRow);
+                };
+
+                insertToTable(); */
+
+              }
+              
+            } else {
+              consologe.log('Inconsistent data')
+            }
+  
+            
           });
+         
         });
     });
-  }
-}
-/**
- * Reads a multi value weather odbservation data from FMI's WFS server and
- * Stores data to an existing table on a PostgreSQL Database
- * Inherits WeatherMultiValueData class properties and methods
- * @extends WeatherMultiValueData
- */
-
-class WeatherObservationTable extends WeatherMultiValueData {
-  /**
-   * Constructor for the class
-   * @param {string} baseUrl - FMI's WFS url without place or parameter list.
-   * @param {string} place - A Short name of the weather station.
-   * @param {[string]} parameters - List of parameters, defaults to an empty list.
-   * @param {string} tableName - Name of the observation table, defaults to observation.
-   */
-  constructor(baseUrl, place, parameters = [], tableName = 'observation') {
-    super(baseUrl, place, parameters);
-    this.tableName = tableName;
+  
   }
 }
 
+// -------------------------------TESTING----------------------------------
 // Some preliminary tests to see that everything is functioning as expected
 // ------------------------------------------------------------------------
 
 // Create a new base object for testing
 const baseUrl1 =
   'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::observations::weather::hourly::multipointcoverage';
+
 const place1 = 'Ajos';
-const weatherMultiValueData = new WeatherMultiValueData(baseUrl1, place1);
 
-// Check URL and Axios configuration
-console.log('Base URL', weatherMultiValueData.baseUrl);
-console.log('Axios configuration', weatherMultiValueData.axiosConfig);
-
-// Get data and log it to a console using a method
-weatherMultiValueData.testRetrieveData();
+const parameters1 = ['temperature','windspeedms']
 
 // Test Camaro templates to extract data from XML
 const timePlacePath1 =
   'wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:domainSet/gmlcov:SimpleMultiPoint';
-const timePlaceTag1 = 'gmlcov:positions';
-weatherMultiValueData.setTimeAndPlaceTemplate(timePlacePath1, timePlaceTag1);
 
-console.log(
-  'Time and place template is ',
-  weatherMultiValueData.timeAndPlaceTemplate
-);
+const timePlaceTag1 = 'gmlcov:positions';
 
 const weatherDataPahth1 =
   'wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:rangeSet/gml:DataBlock';
-const valuesTag1 = 'gml:doubleOrNilReasonTupleList';
 
-weatherMultiValueData.setWeatherDataTemplate(weatherDataPahth1, valuesTag1);
+  const valuesTag1 = 'gml:doubleOrNilReasonTupleList';
 
-weatherMultiValueData.getDataAsArray();
+// Create a new weather observation object
+const obserVationTable = new BasicWeatherObservationTable(baseUrl1, place1)
+
+// Set a path and a tag to time and place data
+obserVationTable.setTimeAndPlaceTemplate(timePlacePath1, timePlaceTag1)
+
+// Set a path and a tag to weather observations
+obserVationTable.setWeatherDataTemplate(weatherDataPahth1, valuesTag1)
+
+// Check the values of the most important properties
+console.log('base URL', obserVationTable.baseUrl)
+console.log('Axios configuration', obserVationTable.axiosConfig)
+console.log('Time and place template', obserVationTable.timeAndPlaceTemplate)
+console.log('Weather data template', obserVationTable.weatheDataTemplate)
+
+// Write observation data to a table
+obserVationTable.writeTypedDataToTable()
